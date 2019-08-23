@@ -1,6 +1,6 @@
 # God UI Script
 
-![](https://i.imgur.com/zyJut1p.gifv)
+![](https://media.giphy.com/media/dv6OjCanFEeF6jA4dq/giphy.gif)
 
 ---
 
