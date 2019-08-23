@@ -32,18 +32,18 @@ Move `God` folder to addons.
 - Repositioned to bottom center of screen with `30` offset y-axis
 - Moved button anchor points from `MainMenuBartArtFrame` to `MainMenuBar`. (ArtFrame contains the background image, which we're not using.)
 
-**Bag Buttons**
+    **Bag Buttons**
 
-- Hidden
-- Todo: Reposition to bottom right of screen. Hover to show.
+    - Todo: Reposition to bottom right of screen. Hover to show.
+    - Hidden
 
-**Ping Meter**
+    **Ping Meter**
 
-- Repositioned to bottom left of screen
+    - Repositioned to bottom left of screen
 
-**Micro Buttons**
+    **Micro Buttons**
 
-- Repositioned to bottom left of screen
+    - Repositioned to bottom left of screen
 
 ### Bottom Left Action Bar
 
