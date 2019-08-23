@@ -1,10 +1,24 @@
 -- This file is loaded from "God.toc"
 
 
--- EXTRA UTILITY FUNCTIONS
-	-- Make Arrow Keys Work in Text Chat
+-- UTILITY FUNCTIONS
+	-- Arrow Keys Work in Text Chat
 	for i=1,10 do b=_G["ChatFrame"..i.."EditBox"] b:SetAltArrowKeyMode(false) end
-	-- Class colors in hp bars
+	-- Extra slash commands
+		-- /clc to clear combat log
+		SlashCmdList["CLCE"] = function() CombatLogClearEntries() end
+		SLASH_CLCE1 = "/clc"
+		-- /gm to opan a GMM ticket
+		SlashCmdList["TICKET"] = function() ToggleHelpFrame() end
+		SLASH_TICKET1 = "/gm"
+		-- /rc for readycheck
+		SlashCmdList["READYCHECK"] = function() DoReadyCheck() end
+		SLASH_READYCHECK1 = '/rc'
+		-- /cr for check role
+		SlashCmdList["CHECKROLE"] = function() InitiateRolePoll() end
+		SLASH_CHECKROLE1 = '/cr'
+-- Character Frames
+	-- Class color in HP bar
 	local function colour(statusbar, unit)
 	    local _, class, c
 	    if UnitIsPlayer(unit) and UnitIsConnected(unit) and unit == statusbar.unit and UnitClass(unit) then
@@ -14,7 +28,6 @@
 	        PlayerFrameHealthBar:SetStatusBarColor(0,1,0)
 	    end
 	end
-
 	hooksecurefunc("UnitFrameHealthBar_Update", colour)
 	hooksecurefunc("HealthBar_OnValueChanged", function(self)
 	    colour(self, self.unit)
@@ -33,19 +46,6 @@
 	        end
 	    end
 	end)
-	-- Extra slash commands
-		-- /clc to clear combat log
-		SlashCmdList["CLCE"] = function() CombatLogClearEntries() end
-		SLASH_CLCE1 = "/clc"
-		-- /gm to opan a GMM ticket
-		SlashCmdList["TICKET"] = function() ToggleHelpFrame() end
-		SLASH_TICKET1 = "/gm"
-		-- /rc for readycheck
-		SlashCmdList["READYCHECK"] = function() DoReadyCheck() end
-		SLASH_READYCHECK1 = '/rc'
-		-- /cr for check role
-		SlashCmdList["CHECKROLE"] = function() InitiateRolePoll() end
-		SLASH_CHECKROLE1 = '/cr'
 -- Minimap
 	-- Hide Zoom Buttons
 	MinimapZoomIn:Hide()
