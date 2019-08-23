@@ -4,6 +4,60 @@
 -- EXTRA UTILITY FUNCTIONS
 	-- Make Arrow Keys Work in Text Chat
 	for i=1,10 do b=_G["ChatFrame"..i.."EditBox"] b:SetAltArrowKeyMode(false) end
+	-- Class colors in hp bars
+	local function colour(statusbar, unit)
+	    local _, class, c
+	    if UnitIsPlayer(unit) and UnitIsConnected(unit) and unit == statusbar.unit and UnitClass(unit) then
+	        _, class = UnitClass(unit)
+	        c = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[class] or RAID_CLASS_COLORS[class]
+	        statusbar:SetStatusBarColor(c.r, c.g, c.b)
+	        PlayerFrameHealthBar:SetStatusBarColor(0,1,0)
+	    end
+	end
+
+	hooksecurefunc("UnitFrameHealthBar_Update", colour)
+	hooksecurefunc("HealthBar_OnValueChanged", function(self)
+	    colour(self, self.unit)
+	end)
+	-- Class icons instead of portraits
+	hooksecurefunc("UnitFramePortrait_Update",function(self)
+	    if self.portrait then
+	        if UnitIsPlayer(self.unit) then                
+	            local t = CLASS_ICON_TCOORDS[select(2, UnitClass(self.unit))]
+	            if t then
+	                self.portrait:SetTexture("Interface\\TargetingFrame\\UI-Classes-Circles")
+	                self.portrait:SetTexCoord(unpack(t))
+	            end
+	        else
+	            self.portrait:SetTexCoord(0,1,0,1)
+	        end
+	    end
+	end)
+	-- Extra slash commands
+		-- /clc to clear combat log
+		SlashCmdList["CLCE"] = function() CombatLogClearEntries() end
+		SLASH_CLCE1 = "/clc"
+		-- /gm to opan a GMM ticket
+		SlashCmdList["TICKET"] = function() ToggleHelpFrame() end
+		SLASH_TICKET1 = "/gm"
+		-- /rc for readycheck
+		SlashCmdList["READYCHECK"] = function() DoReadyCheck() end
+		SLASH_READYCHECK1 = '/rc'
+		-- /cr for check role
+		SlashCmdList["CHECKROLE"] = function() InitiateRolePoll() end
+		SLASH_CHECKROLE1 = '/cr'
+-- Minimap
+	-- Hide Zoom Buttons
+	MinimapZoomIn:Hide()
+	MinimapZoomOut:Hide()
+	-- Enable Scroll to Zoom
+	Minimap:EnableMouseWheel(true)
+	Minimap:SetScript('OnMouseWheel', function(self, delta)
+	    if delta > 0 
+	    	then Minimap_ZoomIn()
+	    	else Minimap_ZoomOut()
+	    end
+	end)
 -- Micro Buttons
 	-- Reposition
 	CharacterMicroButton:ClearAllPoints()
@@ -73,6 +127,8 @@
 	FramerateText:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", 0, 0) 
 	-- Scale
 	FramerateText:SetScale(0.9) FramerateText.SetScale = function() end
+
+
 
 
 --Turn MultiBarRight into 3 4 button rows
