@@ -1,5 +1,9 @@
 # God UI Script
 
+![](https://i.imgur.com/zyJut1p.gifv)
+
+---
+
 ## Instructions
 
 Move `God` folder to addons.
