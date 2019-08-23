@@ -62,18 +62,7 @@
 	-- Reposition
 	CharacterMicroButton:ClearAllPoints()
 	CharacterMicroButton:SetPoint("BOTTOMLEFT", UIParent, "BOTTOMLEFT", 10, 0)
--- Ping Meter
-	--Reposition
-	MainMenuBarPerformanceBarFrame:ClearAllPoints()
-	MainMenuBarPerformanceBarFrame:SetPoint("BOTTOMLEFT", UIParent, "BOTTOMLEFT", 0, -10)
--- XP Bar
-	-- Reposition
-	MainMenuExpBar:ClearAllPoints()
-	MainMenuExpBar:SetPoint("BOTTOM", UIParent, "BOTTOM", 0, 0)
-	-- Hover to show
-	MainMenuExpBar:SetAlpha(0)
-	MainMenuExpBar:SetScript("OnEnter", function(StatusTrackingBarManager) MainMenuExpBar:SetAlpha(1) end)
-	MainMenuExpBar:SetScript("OnLeave", function(StatusTrackingBarManager) MainMenuExpBar:SetAlpha(0) end)
+
 -- Main Action Bar
 	--Restructure Button Points Without MainMenuBarArtFrame(Because it's hiddden)
 	for i = 1, 12 do _G["ActionButton"..i]:ClearAllPoints() end
@@ -87,10 +76,44 @@
 	-- Hide Gryphons
 	MainMenuBarLeftEndCap:Hide()
 	MainMenuBarRightEndCap:Hide()
-	-- Hide Bag Buttons
-	for i = 0, 3 do _G["CharacterBag"..i.."Slot"]:Hide() end
-	MainMenuBarBackpackButton:Hide()
-	-- Hide Button Borders
+	-- Bags
+		-- Create new frame
+		local f = CreateFrame("Frame","Bags",UIParent)
+		f:SetSize(195, 40) -- Set these to whatever height/width is needed 
+		f:SetPoint("BOTTOMRIGHT",0,0)
+		f:Show()
+		f:SetAlpha(0)
+		-- Do stuff to primary bag button
+		MainMenuBarBackpackButton:ClearAllPoints()
+		MainMenuBarBackpackButton:SetScale(0.8)
+		MainMenuBarBackpackButtonNormalTexture:Hide()
+		MainMenuBarBackpackButton:SetPoint("BOTTOMRIGHT", Bags, "BOTTOMRIGHT", 0, 0)
+		MainMenuBarBackpackButton:SetParent(Bags)
+		MainMenuBarBackpackButton:SetScript("OnEnter", function(StatusTrackingBarManager) Bags:SetAlpha(1) end)
+		MainMenuBarBackpackButton:SetScript("OnLeave", function(StatusTrackingBarManager) Bags:SetAlpha(0) end)
+		-- Do stuff to equippable bag buttons
+		CharacterBag0Slot:SetPoint("RIGHT", MainMenuBarBackpackButton, "LEFT", 0, -1)
+		for i = 0, 3 do 
+			_G["CharacterBag"..i.."SlotNormalTexture"]:Hide() 
+			if i > 0 then _G["CharacterBag"..i.."Slot"]:SetPoint("RIGHT", _G["CharacterBag"..(i - 1).."Slot"] , "LEFT", 0, 0) end
+			_G["CharacterBag"..i.."Slot"]:SetScale(0.8) 
+			_G["CharacterBag"..i.."Slot"]:SetParent(Bags) 
+			_G["CharacterBag"..i.."Slot"]:SetScript("OnEnter", function(StatusTrackingBarManager) Bags:SetAlpha(1) end) 
+			_G["CharacterBag"..i.."Slot"]:SetScript("OnLeave", function(StatusTrackingBarManager) Bags:SetAlpha(0) end) 
+		end
+	-- Ping Meter
+		--Reposition
+		MainMenuBarPerformanceBarFrame:ClearAllPoints()
+		MainMenuBarPerformanceBarFrame:SetPoint("BOTTOMLEFT", UIParent, "BOTTOMLEFT", 0, -10)
+	-- XP Bar
+		-- Reposition
+		MainMenuExpBar:ClearAllPoints()
+		MainMenuExpBar:SetPoint("BOTTOM", UIParent, "BOTTOM", 0, 0)
+		-- Hover to show
+		MainMenuExpBar:SetAlpha(0)
+		MainMenuExpBar:SetScript("OnEnter", function(StatusTrackingBarManager) MainMenuExpBar:SetAlpha(1) end)
+		MainMenuExpBar:SetScript("OnLeave", function(StatusTrackingBarManager) MainMenuExpBar:SetAlpha(0) end)
+	-- Hide Action Button Borders
 	for i = 1, 12 do _G["ActionButton"..i.."NormalTexture"]:Hide() end
 	-- Reposition
 	MainMenuBar:SetPoint("BOTTOM", UIParent, "BOTTOM", -4, 30)
@@ -127,7 +150,6 @@
 	FramerateText:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", 0, 0) 
 	-- Scale
 	FramerateText:SetScale(0.9) FramerateText.SetScale = function() end
-
 
 
 
